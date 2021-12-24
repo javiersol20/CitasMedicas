@@ -14,6 +14,7 @@
     <link href="{{ asset('assets/vendor/nucleo/css/nucleo.css')}}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/@fortawesome/fontawesome-free/css/all.min.css')}}" rel="stylesheet">
     <link type="text/css" href="{{ asset('assets/css/argon.css?v=1.0.0')}}" rel="stylesheet">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <body>
@@ -107,6 +108,6 @@
 <script src="{{ asset('assets/vendor/chart.js/dist/Chart.min.js ') }}"></script>
 <script src="{{ asset('assets/vendor/chart.js/dist/Chart.extension.js ') }}"></script>
 <script src="{{ asset('assets/js/argon.js?v=1.0.0 ') }}"></script>
-
+@yield('scripts')
 </body>
 </html>

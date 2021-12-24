@@ -1,17 +1,17 @@
 <h6 class="navbar-heading text-muted">Gestion de datos</h6>
 <ul class="navbar-nav">
     <li class="nav-item">
-        <a class="nav-link" href="/">
+        <a class="nav-link" href="{{ route('home') }}">
             <i class="ni ni-tv-2 text-primary"></i> Dashboard
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="./examples/icons.html">
+        <a class="nav-link" href="{{ route('specialties.index') }}">
             <i class="ni ni-planet text-blue"></i> Especialidades
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="./examples/maps.html">
+        <a class="nav-link" href="{{ route('doctors.index') }}">
             <i class="ni ni-pin-3 text-orange"></i> Medicos
         </a>
     </li>
