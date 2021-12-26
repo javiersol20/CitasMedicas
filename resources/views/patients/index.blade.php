@@ -1,17 +1,17 @@
 @extends('layouts.panel')
 
-@section('title', 'Doctores')
+@section('title', 'Pacientes')
 
 @section('content')
     <div class="card shadow">
         <div class="card-header border-0">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="mb-0">Medicos</h3>
+                    <h3 class="mb-0">Pacientes</h3>
                 </div>
 
                 <div class="col text-right">
-                    <a href="{{ route('doctors.create') }}" class="btn btn-sm btn-primary">Nuevo medico</a>
+                    <a href="{{ route('patients.create') }}" class="btn btn-sm btn-primary">Nuevo paciente</a>
                 </div>
             </div>
         </div>
@@ -33,38 +33,38 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">NOMBRE</th>
+                    <th scope="col">EMAIL</th>
                     <th scope="col">DNI</th>
                     <th scope="col">ESTADO</th>
                     <th scope="col">ACCIONES</th>
                 </tr>
                 </thead>
                 <tbody>
-                @if(count($doctors) > 0)
-                    @foreach($doctors as $doctor)
+                @if(count($patients) > 0)
+                    @foreach($patients as $patient)
                         <tr>
                             <td scope="row">
-                                {{ $doctor->id }}
+                                {{ $patient->id }}
                             </td>
                             <td>
-                                {{ $doctor->name }}
-                            </td>
-
-                            <td>
-                                {{ $doctor->dni }}
+                                {{ $patient->name }}
                             </td>
                             <td>
-                                  <span class="badge badge-dot mr-4">
-                                      <i class="{{ $doctor->status === 1 ? "bg-success" : "bg-warning" }}"></i> {{ $doctor->status === 1 ? "Activo" : "Inactivo" }}
-                                </span>
-
+                                {{ $patient->email }}
                             </td>
                             <td>
-                                <form id="formDeleteDoctor"  action="{{ route('doctors.destroy', ['user' => $doctor->id]) }}" method="POST">
+                                2121
+                            </td>
+                            <td>
+                                ACTIVE
+                            </td>
+                            <td>
+                                <form id="formDeletePatient"  action="{{ route('patients.destroy', ['user' => $patient->id]) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <a href="{{ route('doctors.edit', ['user' => $doctor->id]) }}"  class="btn btn-warning btn-sm text-white"><i class="fas fa-edit text-white mr-3"></i> EDITAR </a>
+                                    <a href="{{ route('patients.edit', ['user' => $patient->id]) }}"  class="btn btn-warning btn-sm text-white"><i class="fas fa-edit text-white mr-3"></i> EDITAR </a>
 
-                                    <button onclick="deleteDoctor()" id="submitDeleteDoctor" type="button" class="btn btn-danger btn-sm text-white"><i class="fas fa-trash text-white mr-3"></i> ELIMINAR</button>
+                                    <button onclick="deletePatient()" id="buttonDelete" type="button" class="btn btn-danger btn-sm text-white"><i class="fas fa-trash text-white mr-3"></i> ELIMINAR</button>
                                 </form>
                             </td>
                         </tr>
@@ -77,19 +77,18 @@
             </table>
         </div>
         <div class="card-body">
-            {{ $doctors->links() }}
+        {{ $patients->links() }}
         </div>
     </div>
 @endsection
 
 @section('scripts')
     <script>
-        function deleteDoctor()
+        function deletePatient()
         {
 
-
             swal({
-                title: "ESTAS SEGURO DE ELIMINAR AL MEDICO?",
+                title: "ESTAS SEGURO DE ELIMINAR AL PACIENTE?",
                 text: "Una vez eliminada, ya no se puede recuperar!",
                 icon: "warning",
                 buttons: true,
@@ -97,10 +96,10 @@
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        var submitDeleteDoctor = document.getElementById('submitDeleteDoctor');
-                        submitDeleteDoctor.type = "submit";
-                        var formDeleteDoctor = document.getElementById('formDeleteDoctor');
-                        formDeleteDoctor.submit();
+                        var buttonDelete = document.getElementById('buttonDelete');
+                        buttonDelete.type = "submit";
+                        var formDeletePatient = document.getElementById('formDeletePatient');
+                        formDeletePatient.submit();
                     } else {
                         return false;
                     }

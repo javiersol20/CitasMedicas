@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SpecialtyController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\PatientController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -51,3 +52,17 @@ Route::delete('/doctors/{user}', [DoctorController::class, 'destroy'])->name('do
 /**
  * Routes Patient
  */
+
+# GET
+Route::get('/patients', [PatientController::class, 'index'])->name('patients.index');
+Route::get('/patients/create', [PatientController::class, 'create'])->name('patients.create');
+Route::get('/patients/{user}/create', [PatientController::class, 'edit'])->name('patients.edit');
+
+# POST
+Route::post('/patients', [PatientController::class, 'store'])->name('patients.store');
+
+# PUT
+Route::put('/patients/{user}', [PatientController::class, 'update'])->name('patients.update');
+
+# DELETE
+Route::delete('/patients/{user}', [PatientController::class, 'destroy'])->name('patients.destroy');
