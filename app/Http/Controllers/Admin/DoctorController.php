@@ -1,18 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Traits\ManagePhotos;
+use App\Traits\Validations;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Traits\ManagePhotos;
-use App\Traits\Validations;
+use function bcrypt;
+use function redirect;
+use function view;
 
 class DoctorController extends Controller
 {
 
     use ManagePhotos, Validations;
+
+
 
     public function index()
     {

@@ -33,7 +33,6 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">NOMBRE</th>
-                    <th scope="col">EMAIL</th>
                     <th scope="col">DNI</th>
                     <th scope="col">ESTADO</th>
                     <th scope="col">ACCIONES</th>
@@ -49,14 +48,14 @@
                             <td>
                                 {{ $patient->name }}
                             </td>
+
                             <td>
-                                {{ $patient->email }}
+                                {{ $patient->dni }}
                             </td>
                             <td>
-                                2121
-                            </td>
-                            <td>
-                                ACTIVE
+                                    <span class="badge badge-dot mr-4">
+                                      <i class="{{ $patient->status === 1 ? "bg-success" : "bg-warning" }}"></i> {{ $patient->status === 1 ? "Activo" : "Inactivo" }}
+                                </span>
                             </td>
                             <td>
                                 <form id="formDeletePatient"  action="{{ route('patients.destroy', ['user' => $patient->id]) }}" method="POST">

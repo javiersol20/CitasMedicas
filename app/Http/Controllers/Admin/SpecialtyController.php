@@ -1,20 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Specialty;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use function redirect;
+use function view;
 
 class SpecialtyController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     public function index()
     {

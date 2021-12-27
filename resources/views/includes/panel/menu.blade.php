@@ -1,5 +1,9 @@
-<h6 class="navbar-heading text-muted">Gestion de datos</h6>
+<h6 class="navbar-heading text-muted">
+    {{ auth()->user()->role == "admin" ? "Gestionar datos" : "Menu"}}
+</h6>
 <ul class="navbar-nav">
+
+    @if(auth()->user()->role == "admin")
     <li class="nav-item">
         <a class="nav-link" href="{{ route('home') }}">
             <i class="ni ni-tv-2 text-primary"></i> Dashboard
@@ -21,9 +25,52 @@
         </a>
     </li>
 
+    @elseif(auth()->user()->role == "doctor")
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('home') }}">
+                <i class="ni ni-tv-2 text-primary"></i> Gestionar horario
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('home') }}">
+                <i class="ni ni-tv-2 text-primary"></i> Mis citas
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('patients.index') }}">
+                <i class="ni ni-tv-2 text-primary"></i> Mis pacientes
+            </a>
+        </li>
+    @else
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('home') }}">
+                <i class="ni ni-tv-2 text-primary"></i> Mis citas
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('home') }}">
+                <i class="ni ni-tv-2 text-primary"></i> Reservar cita
+            </a>
+        </li>
+
+
+    @endif
+        <li class="nav-item">
+            <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('formLogout').submit();">
+                <i class="ni ni-ui-04"></i> Cerrar Sesion
+            </a>
+            <form action="{{ route('logout') }}" method="POST" style="display: none" id="formLogout">
+                @csrf
+            </form>
+        </li>
 </ul>
 
 <hr class="my-3">
+
+@if(auth()->user()->role == "admin")
 
 <h6 class="navbar-heading text-muted">Reportes</h6>
 
@@ -39,12 +86,7 @@
             <i class="ni ni-spaceship"></i> Medicos mas activos
         </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('formLogout').submit();">
-            <i class="ni ni-ui-04"></i> Cerrar Sesion
-        </a>
-        <form action="{{ route('logout') }}" method="POST" style="display: none" id="formLogout">
-            @csrf
-        </form>
-    </li>
+
 </ul>
+
+@endif
