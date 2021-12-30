@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\Admin\SpecialtyController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Doctor\ScheduleController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -70,9 +71,9 @@ Route::middleware(['auth', 'admin'])->group(function (){
 # DELETE
     Route::delete('/patients/{user}', [PatientController::class, 'destroy'])->name('patients.destroy');
 
-    /**
-     * ROUTES HOURS
-     */
+});
 
+Route::middleware(['auth', 'doctor'])->group(function () {
 
+    Route::get('/schedule', [ScheduleController::class, 'edit'])->name('schedule.edit');
 });
