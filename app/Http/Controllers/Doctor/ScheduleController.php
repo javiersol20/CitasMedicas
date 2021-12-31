@@ -3,58 +3,72 @@
 namespace App\Http\Controllers\Doctor;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use App\Models\WorkDay;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+use Ramsey\Uuid\Exception\TimeSourceException;
 
 class ScheduleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+
+        $active = $request->active ?: [];
+        $morning_start = $request->morning_start;
+        $morning_end = $request->morning_end;
+        $afternoon_start = $request->afternoon_start;
+        $afternoon_end = $request->afternoon_end;
+
+
+        for ($i = 0; $i < 7; $i++)
+
+            try{
+                WorkDay::updateOrCreate(
+                    [
+                        'doctor_id' => auth()->user()->id,
+                        'day' => $i,
+
+                    ],
+                    [
+                        'status' => in_array($i, $active),
+                        'morning_start' => $morning_start[$i],
+                        'morning_end' => $morning_end[$i],
+                        'afternoon_start' => $afternoon_start[$i],
+                        'afternoon_end' => $afternoon_end[$i]
+                    ]
+                );
+                $responseWordDay = 'Horario actualizado';
+            }catch (QueryException $exception)
+            {
+                Log::error('Error al actualizar o en dado caso no exista al crear el horario del medico: '. $exception->getMessage());
+                $responseWordDay = 'Ha ocurrido un error interno en el servidor';
+            }
+
+
+
+        return redirect()->route('schedule.edit')->with('message', $responseWordDay);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
-     */
     public function edit()
     {
         $days = ['Lunes','Martes','Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
@@ -74,12 +88,6 @@ class ScheduleController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

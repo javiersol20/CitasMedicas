@@ -19,8 +19,8 @@ class CreateWorkDaysTable extends Migration
             $table->unsignedBigInteger('doctor_id');
             $table->foreign('doctor_id')->references('id')->on('users');
 
-            $table->unsignedSmallInteger('day');
-            $table->boolean('status')->comment('1 IS ACTIVE, 0 IS INACTIVE')->default(0);
+            $table->unsignedSmallInteger('day')->comment('empiezan en 0 siendo lunes y terminan en 6 siendo domingo');
+            $table->boolean('status');
             $table->time('morning_start');
             $table->time('morning_end');
             $table->time('afternoon_start');
