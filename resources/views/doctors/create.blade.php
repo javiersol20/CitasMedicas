@@ -1,6 +1,7 @@
 @extends('layouts.panel')
 
 @section('title', 'Doctores')
+
 @section('content')
 
 
@@ -41,6 +42,16 @@
                     <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" >
                 </div>
 
+                <div class="form-group">
+                    <label for="specialidad">Especialidades</label>
+                    <select class="form-control selectpicker " data-live-search="true"  multiple data-style="btn-secondary">
+                        @foreach($specialties as $key => $specialty)
+                        <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
+                        @endforeach
+                    </select>
+
+
+                </div>
 
                 <div class="form-group">
                     <label for="dni">DNI</label>
@@ -75,3 +86,4 @@
     </div>
 
 @endsection
+

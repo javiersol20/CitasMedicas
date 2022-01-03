@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Specialty;
 use App\Models\User;
 use App\Traits\ManagePhotos;
 use App\Traits\Validations;
@@ -28,7 +29,8 @@ class DoctorController extends Controller
 
     public function create()
     {
-        return view('doctors.create');
+        $specialties = Specialty::status()->get();
+        return view('doctors.create', compact('specialties'));
     }
 
     public function store(Request $request)

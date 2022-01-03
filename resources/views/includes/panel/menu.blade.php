@@ -44,19 +44,19 @@
             </a>
         </li>
     @else
+
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('appointments.create') }}">
+                <i class="ni ni-send text-primary"></i> Reservar cita
+            </a>
+        </li>
+
         <li class="nav-item">
             <a class="nav-link" href="{{ route('home') }}">
                 <i class="ni ni-tv-2 text-primary"></i> Mis citas
             </a>
         </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('home') }}">
-                <i class="ni ni-tv-2 text-primary"></i> Reservar cita
-            </a>
-        </li>
-
-
     @endif
         <li class="nav-item">
             <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('formLogout').submit();">

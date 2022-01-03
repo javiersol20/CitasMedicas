@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\Admin\SpecialtyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Doctor\ScheduleController;
+use App\Http\Controllers\AppointmentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -78,3 +79,6 @@ Route::middleware(['auth', 'doctor'])->group(function () {
     Route::get('/schedule', [ScheduleController::class, 'edit'])->name('schedule.edit');
     Route::post('/schedule', [ScheduleController::class, 'store'])->name('schedule.store');
 });
+
+Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
+Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');

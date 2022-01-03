@@ -58,4 +58,9 @@ class User extends Authenticatable
         return $query->where('role', 'doctor');
     }
 
+    public function specialties()
+    {
+        return $this->belongsToMany(Specialty::class);
+    }
+
 }
