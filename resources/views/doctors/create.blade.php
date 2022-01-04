@@ -44,7 +44,7 @@
 
                 <div class="form-group">
                     <label for="specialidad">Especialidades</label>
-                    <select class="form-control selectpicker " data-live-search="true"  multiple data-style="btn-secondary">
+                    <select class="form-control selectpicker " data-live-search="true"  multiple title="seleccione una o varias especialidades" name="specialties[]" id="specialties"  data-style="btn-outline-secondary">
                         @foreach($specialties as $key => $specialty)
                         <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
                         @endforeach

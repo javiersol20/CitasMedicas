@@ -44,6 +44,17 @@
 
 
                 <div class="form-group">
+                    <label for="specialidad">Especialidades</label>
+                    <select class="form-control selectpicker" data-live-search="true"  multiple title="seleccione una o varias especialidades" name="specialties[]" id="specialties"  data-style="btn-outline-secondary">
+                        @foreach($specialties as $key => $specialty)
+                            <option value="{{ $specialty->id }}" >{{ $specialty->name }}</option>
+                        @endforeach
+                    </select>
+
+
+                </div>
+
+                <div class="form-group">
                     <label for="dni">DNI</label>
                     <input type="number" name="dni" id="dni" class="form-control" value="{{ $doctor->dni }}" >
                 </div>
@@ -78,4 +89,12 @@
         </div>
     </div>
 
+@endsection
+@section('scripts')
+    <script>
+        $(document).ready(() => {
+            $('#specialties').selectpicker('val', @json($specialty_ids));
+        })
+
+    </script>
 @endsection

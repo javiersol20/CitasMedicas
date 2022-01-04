@@ -54,7 +54,7 @@ class DoctorController extends Controller
             }
 
             try {
-                User::create([
+                $user = User::create([
                     'name' => $request->name,
                     'email' => $request->email,
                     'password' => bcrypt($request->password),
@@ -64,6 +64,9 @@ class DoctorController extends Controller
                     'role' => "doctor",
                     'photo' => $name,
                 ]);
+
+                $user->specialties()->attach($request->specialties);
+
                 $responseStore = ["Medico creado"];
             }catch(QueryException $exception)
             {
@@ -85,7 +88,11 @@ class DoctorController extends Controller
     public function edit(User $user)
     {
         $doctor = $user;
-       return view('doctors.edit', compact('doctor'));
+        $specialties = Specialty::status()->get();
+
+        $specialty_ids = $doctor->specialties()->pluck('specialties.id');
+
+       return view('doctors.edit', compact('doctor', 'specialties', 'specialty_ids'));
     }
 
 
@@ -115,6 +122,7 @@ class DoctorController extends Controller
                     'phone' => $request->phone,
                     'photo' => $name,
                 ]);
+                $user->specialties()->sync($request->specialties);
 
                 $responseUpdate = ['Medico actualizado'];
             }catch (QueryException $exception)
