@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\SpecialtyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Doctor\ScheduleController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\Api\SpecialtyController as ApiSpecialtyController;
+use App\Http\Controllers\Api\ScheduleController as ApiScheduleController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -80,5 +82,18 @@ Route::middleware(['auth', 'doctor'])->group(function () {
     Route::post('/schedule', [ScheduleController::class, 'store'])->name('schedule.store');
 });
 
-Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
-Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+Route::middleware('auth')->group(function () {
+    Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
+    Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+
+    // JSON provisional
+
+    Route::get('/specialties/{specialty}/doctors', [ApiSpecialtyController::class, 'doctors'])->name('json.doctors');
+    Route::get('/schedule/hours', [ApiScheduleController::class, 'hours'])->name('json.hours');
+
+    /**
+     *
+     */
+
+
+});

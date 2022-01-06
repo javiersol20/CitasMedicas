@@ -85,14 +85,24 @@ class ScheduleController extends Controller
 
         $workDays = WorkDay::where('doctor_id', auth()->user()->id)->get();
 
-        $workDays->map(function ($workDay)
+        if(count($workDays) > 0)
         {
-            $workDay->morning_start = (new Carbon($workDay->morning_start))->format('g:i A');
-            $workDay->morning_end = (new Carbon($workDay->morning_end))->format('g:i A');
-            $workDay->afternoon_start = (new Carbon($workDay->afternoon_start))->format('g:i A');
-            $workDay->afternoon_end = (new Carbon($workDay->afternoon_end))->format('g:i A');
-            return $workDay;
-        });
+            $workDays->map(function ($workDay)
+            {
+                $workDay->morning_start = (new Carbon($workDay->morning_start))->format('g:i A');
+                $workDay->morning_end = (new Carbon($workDay->morning_end))->format('g:i A');
+                $workDay->afternoon_start = (new Carbon($workDay->afternoon_start))->format('g:i A');
+                $workDay->afternoon_end = (new Carbon($workDay->afternoon_end))->format('g:i A');
+                return $workDay;
+            });
+        }else{
+            $workDays =  collect();
+            for($i = 0; $i < 7; $i++)
+            {
+                $workDays->push(new WorkDay());
+            }
+        }
+
 
         $days = $this->days;
 
