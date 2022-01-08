@@ -26,6 +26,6 @@ class UserSeeder extends Seeder
             'phone' => "+50230289927",
             'role' => "admin"
         ]);
-        User::factory(50)->create();
+        //User::factory(50)->create();
     }
 }

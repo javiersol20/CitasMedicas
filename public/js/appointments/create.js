@@ -1,6 +1,6 @@
 let $doctor, $date, $specialty, $hours;
 let iRadio;
-const noHoursAlert = `<div class="alert alert-danger" role="alert"><strong>Lo sentimos!</strong> No se tienen horas disponibles para este medico</div>`;
+const noHoursAlert = `<div class="alert alert-danger" role="alert"><strong>Lo sentimos!</strong> No se tienen horas disponibles, prueba con otro dia y/o otro medico</div>`;
 
 $(function (){
 
@@ -73,7 +73,7 @@ $(function (){
         const text = `${interval.start} - ${interval.end}`;
 
         return ` <div class="custom-control custom-radio mb-3">
-  <input type="radio" id="interval${iRadio}" name="interval" class="custom-control-input" value="${text}">
+  <input type="radio" id="interval${iRadio}" name="interval" class="custom-control-input" value="${interval.start}">
   <label class="custom-control-label" for="interval${iRadio++}">${text}</label>
 </div>`
     }

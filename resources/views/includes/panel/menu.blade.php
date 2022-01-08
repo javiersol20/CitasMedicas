@@ -33,7 +33,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('home') }}">
+            <a class="nav-link" href="{{ route('appointments.index') }}">
                 <i class="ni ni-tv-2 text-primary"></i> Mis citas
             </a>
         </li>
@@ -53,7 +53,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('home') }}">
+            <a class="nav-link" href="{{ route('appointments.index') }}">
                 <i class="ni ni-tv-2 text-primary"></i> Mis citas
             </a>
         </li>

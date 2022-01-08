@@ -83,17 +83,15 @@ Route::middleware(['auth', 'doctor'])->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+
     Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
     Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
-
+    Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
     // JSON provisional
 
     Route::get('/specialties/{specialty}/doctors', [ApiSpecialtyController::class, 'doctors'])->name('json.doctors');
     Route::get('/schedule/hours', [ApiScheduleController::class, 'hours'])->name('json.hours');
 
-    /**
-     *
-     */
 
 
 });

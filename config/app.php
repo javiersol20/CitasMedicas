@@ -177,6 +177,12 @@ return [
 
         \Laraveles\Spanish\SpanishServiceProvider::class,
 
+        /*
+         * ScheduleServiceProvider
+         */
+
+        \App\Providers\ScheduleServiceProvider::class,
+
     ],
 
     /*

@@ -21,7 +21,6 @@ trait Validations
             'phone' => 'required|string|min:8|max:255|unique:users',
             'password' => 'required|string|min:8|max:255',
             'photo' => 'nullable|mimes:jpg,jpeg,png',
-            'specialties' => 'required'
         ]);
 
     }
@@ -35,7 +34,6 @@ trait Validations
             'dni' => 'required|digits_between:5,255|unique:users,dni,'.$user->id,
             'phone' => 'required|string|min:8|max:255|unique:users,phone,'.$user->id,
             'photo' => 'nullable|mimes:jpg,jpeg,png',
-            'specialties' => 'required'
         ]);
     }
 }
