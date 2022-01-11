@@ -11,7 +11,6 @@
                 </div>
 
                 <div class="col text-right">
-                    <a href="{{ route('patients.create') }}" class="btn btn-sm btn-primary">Nueva cita</a>
                 </div>
             </div>
         </div>
@@ -24,26 +23,64 @@
                     </button>
                 </div>
             @endif
+
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#confirmed-appointments" role="tab" aria-selected="true">Mis proximas citas</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#pending-appointments" role="tab"  aria-selected="false">Citas por confirmar</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#old-appointments" role="tab"  aria-selected="false">Historial de citas</a>
+                    </li>
+                </ul>
+
+
         </div>
-        <div class="table-responsive">
 
-            <!-- Projects table -->
-            <table class="table align-items-center table-flush">
-                <thead class="thead-light">
-                <tr>
+        <div class="tab-content" id="myTabContent">
 
-                </tr>
-                </thead>
-                <tbody>
+            <div class="tab-pane fade show active" id="confirmed-appointments" role="tabpanel" >
+                @include('appointments.confirmed-appointments')
+            </div>
 
+            <div class="tab-pane fade" id="pending-appointments" role="tabpanel" >
+                @include('appointments.pending-appointments')
+            </div>
 
-                </tbody>
-            </table>
+            <div class="tab-pane fade" id="old-appointments" role="tabpanel" >
+                @include('appointments.old-appointments')
+            </div>
         </div>
-        <div class="card-body">
-        </div>
+
+
     </div>
 @endsection
 
+@section('scripts')
+    <script>
+        function changeStatusCancelAppointment()
+        {
+            swal({
+                title: "ESTAS SEGURO DE CANCELAR ESTA CITA?",
+                text: "Una vez cancelada, este dia y hora vuelven a estar disponibles para posteriores personas",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        let formStatusCancelAppointment = document.getElementById('formStatusCancelAppointment');
+                        formStatusCancelAppointment.submit();
+                    } else {
+                        return false;
+                    }
+                });
+        }
 
 
+    </script>
+@endsection

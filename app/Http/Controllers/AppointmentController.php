@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Interfaces\ScheduleServiceInterface;
 use App\Models\Appointment;
+use App\Models\CancelledAppointment;
 use App\Models\Specialty;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
@@ -16,7 +17,14 @@ class AppointmentController extends Controller
 
     public function index()
     {
-            return view('appointments.index');
+
+
+        $pendingAppointments = Appointment::where('status', "'Reservada'")->where('patient_id', auth()->user()->id)->get();
+        $confirmedAppointments = Appointment::where('status', 'Confirmada')->where('patient_id', auth()->user()->id)->get();
+
+        $oldAppointments = Appointment::whereIn('status', ['Atendida', 'Cancelada'])->where('patient_id', auth()->user()->id)->paginate(10);
+
+            return view('appointments.index', compact('pendingAppointments', 'confirmedAppointments', 'oldAppointments'));
     }
 
     public function create(ScheduleServiceInterface $scheduleService)
@@ -106,6 +114,61 @@ class AppointmentController extends Controller
 
         $message = $responseAppointment;
         return back()->with(compact('message'))->withInput();
+    }
+
+    public function cancel(Appointment $appointment, Request $request)
+    {
+        if($request->justification)
+        {
+
+            try {
+                $appointment->update(['status' => 'Cancelada']);
+
+                CancelledAppointment::create([
+                    'appointment_id' => $appointment->id,
+                    'cancelled_by' => auth()->user()->id,
+                    'justification' => $request->justification
+                ]);
+
+                $responseUpdateStatusCancel = "Esta cita confirmada, ha sido cancelada";
+
+            }catch (QueryException $exception)
+            {
+                Log::error('Error al actualizar la cita confirmada a estado CANCELADA: '. $exception->getMessage());
+                $responseUpdateStatusCancel = "Lo sentimos... ha ocurrido un error cancelar la cita";
+            }
+        }else{
+            try {
+                $appointment->update(['status' => 'Cancelada']);
+                $responseUpdateStatusCancel = "La cita ha sido cancelada";
+            }catch (QueryException $exception)
+            {
+                Log::error('Error al actualizar la cita reservada a estado CANCELADA: '. $exception->getMessage());
+                $responseUpdateStatusCancel = "Lo sentimos... ha ocurrido un error cancelar la cita";
+            }
+        }
+
+
+        return redirect()->route('appointments.index')->with('message', $responseUpdateStatusCancel);
+
+
+    }
+
+    public function cancelConfirm(Appointment $appointment)
+    {
+        if($appointment->status == 'Confirmada')
+        {
+            return view('appointments.cancel', compact('appointment'));
+
+        }else{
+            return redirect()->route('appointments.index');
+        }
+
+    }
+
+    public function show(Appointment $appointment)
+    {
+        return json_decode($appointment);
     }
 
 
