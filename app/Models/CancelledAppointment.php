@@ -10,8 +10,12 @@ class CancelledAppointment extends Model
     use HasFactory;
 
     protected $fillable = ['appointment_id',
-                            'cancelled_by',
+                            'cancelled_by_id',
                             'justification'];
 
 
+    public function cancelled_by()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

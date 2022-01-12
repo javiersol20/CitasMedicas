@@ -10,7 +10,7 @@ use App\Http\Controllers\Api\SpecialtyController as ApiSpecialtyController;
 use App\Http\Controllers\Api\ScheduleController as ApiScheduleController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 Auth::routes();
@@ -78,22 +78,34 @@ Route::middleware(['auth', 'admin'])->group(function (){
 
 Route::middleware(['auth', 'doctor'])->group(function () {
 
+# GET
     Route::get('/schedule', [ScheduleController::class, 'edit'])->name('schedule.edit');
+
+# POST
     Route::post('/schedule', [ScheduleController::class, 'store'])->name('schedule.store');
 });
 
 Route::middleware('auth')->group(function () {
 
+# GET
+
     Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
+    Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
+    Route::get('/appointments/{appointment}/cancel', [AppointmentController::class, 'cancelConfirm'])->name('appointments.update.cancel.appointment.confirm');
+    Route::get('/appointments/{appointment}', [AppointmentController::class, 'show'])->name('appointments.show');
+
+# POST
+
     Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
 
 
-    Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
-    Route::get('/appointments/{appointment}/cancel', [AppointmentController::class, 'cancelConfirm'])->name('appointments.update.cancel.appointment.confirm');
-    Route::put('/appointments/{appointment}/cancel', [AppointmentController::class, 'cancel'])->name('appointments.update.cancel.appointment');
-    Route::get('/appointments/{appointment}', [AppointmentController::class, 'show'])->name('appointments.show');
-    // JSON provisional
+# PUT
 
+    Route::put('/appointments/{appointment}/cancel', [AppointmentController::class, 'cancel'])->name('appointments.update.cancel.appointment');
+    Route::put('/appointments/{appointment}/confirm', [AppointmentController::class, 'confirmAppointment'])->name('appointments.confirmAppointment');
+
+
+    // JSON
     Route::get('/specialties/{specialty}/doctors', [ApiSpecialtyController::class, 'doctors'])->name('json.doctors');
     Route::get('/schedule/hours', [ApiScheduleController::class, 'hours'])->name('json.hours');
 

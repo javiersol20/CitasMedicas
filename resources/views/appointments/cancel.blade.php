@@ -15,15 +15,13 @@
             </div>
         </div>
         <div class="card-header">
-            @if(Session::has('message'))
-                <div class="alert alert-info alert-dismissible fade show">
-                    <strong style="font-weight: bold"> <i class="fa fa-info"></i> {{ Session::get('message') }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
+
+            @if($role == 'patient' )
             <p>Estas a punto de cancelar tu cita ya confirmada para : {{ $appointment->schedule_date }} a las: {{ $appointment->schedule_time_12 }}</p>
+            @elseif($role == 'doctor' || $role == 'admin')
+                <p>Estas a punto de cancelar una cita ya confirmada para : {{ $appointment->schedule_date }} a las: {{ $appointment->schedule_time_12 }}</p>
+
+            @endif
                 <form id="formStatusCancelAppointmentConfirm" action="{{ route('appointments.update.cancel.appointment', ['appointment' => $appointment->id]) }}" method="POST">
                     @csrf
                     @method('PUT')

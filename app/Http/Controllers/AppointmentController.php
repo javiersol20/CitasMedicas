@@ -15,16 +15,39 @@ use Illuminate\Support\Facades\Validator;
 class AppointmentController extends Controller
 {
 
+    private $role_id;
+
     public function index()
     {
 
 
-        $pendingAppointments = Appointment::where('status', "'Reservada'")->where('patient_id', auth()->user()->id)->get();
-        $confirmedAppointments = Appointment::where('status', 'Confirmada')->where('patient_id', auth()->user()->id)->get();
+        $role = auth()->user()->role;
 
-        $oldAppointments = Appointment::whereIn('status', ['Atendida', 'Cancelada'])->where('patient_id', auth()->user()->id)->paginate(10);
+        if($role == 'doctor')
+        {
+            $this->role_id = 'doctor_id';
 
-            return view('appointments.index', compact('pendingAppointments', 'confirmedAppointments', 'oldAppointments'));
+        }elseif ($role == 'patient')
+        {
+            $this->role_id = 'patient_id';
+
+        }
+
+        if($role == 'doctor' || $role == 'patient')
+        {
+            $pendingAppointments = Appointment::where('status', "'Reservada'")->where($this->role_id, auth()->user()->id)->get();
+            $confirmedAppointments = Appointment::where('status', 'Confirmada')->where($this->role_id, auth()->user()->id)->get();
+            $oldAppointments = Appointment::whereIn('status', ['Atendida', 'Cancelada'])->where($this->role_id, auth()->user()->id)->paginate(10);
+
+        }else{
+            $pendingAppointments = Appointment::where('status', "'Reservada'")->get();
+            $confirmedAppointments = Appointment::where('status', 'Confirmada')->get();
+            $oldAppointments = Appointment::whereIn('status', ['Atendida', 'Cancelada'])->paginate(10);
+
+        }
+
+
+            return view('appointments.index', compact('pendingAppointments', 'confirmedAppointments', 'oldAppointments', 'role'));
     }
 
     public function create(ScheduleServiceInterface $scheduleService)
@@ -126,7 +149,7 @@ class AppointmentController extends Controller
 
                 CancelledAppointment::create([
                     'appointment_id' => $appointment->id,
-                    'cancelled_by' => auth()->user()->id,
+                    'cancelled_by_id' => auth()->user()->id,
                     'justification' => $request->justification
                 ]);
 
@@ -156,9 +179,10 @@ class AppointmentController extends Controller
 
     public function cancelConfirm(Appointment $appointment)
     {
-        if($appointment->status == 'Confirmada')
+        if($appointment->status == 'Confirmada' || $appointment->status == "'Reservada'")
         {
-            return view('appointments.cancel', compact('appointment'));
+            $role = auth()->user()->role;
+            return view('appointments.cancel', compact('appointment', 'role'));
 
         }else{
             return redirect()->route('appointments.index');
@@ -168,7 +192,24 @@ class AppointmentController extends Controller
 
     public function show(Appointment $appointment)
     {
-        return json_decode($appointment);
+        $role = auth()->user()->role;
+
+        return view('appointments.show', compact('appointment', 'role'));
+    }
+
+    public function confirmAppointment(Appointment $appointment)
+    {
+        try {
+            $appointment->update(['status' => 'Confirmada']);
+            $responseUpdateStatusConfirm = "La cita ha sido confirmada";
+        }catch (QueryException $exception)
+        {
+            Log::error('Error al actualizar la cita reservada a estado CANCELADA: '. $exception->getMessage());
+            $responseUpdateStatusConfirm = "Lo sentimos... ha ocurrido un error cancelar la cita";
+        }
+
+        return redirect()->route('appointments.index')->with('message', $responseUpdateStatusConfirm);
+
     }
 
 
