@@ -18,7 +18,7 @@ class SpecialtyController extends Controller
     public function index()
     {
 
-        $specialties = Specialty::all();
+        $specialties = Specialty::paginate(10);
 
         return view('specialties.index', compact('specialties'));
     }

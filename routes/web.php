@@ -8,6 +8,7 @@ use App\Http\Controllers\Doctor\ScheduleController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Api\SpecialtyController as ApiSpecialtyController;
 use App\Http\Controllers\Api\ScheduleController as ApiScheduleController;
+use App\Http\Controllers\Admin\ChartController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -73,6 +74,17 @@ Route::middleware(['auth', 'admin'])->group(function (){
 
 # DELETE
     Route::delete('/patients/{user}', [PatientController::class, 'destroy'])->name('patients.destroy');
+
+    /**
+     * CHARTS
+     */
+
+    Route::get('/charts/appointments/line', [ChartController::class, 'appointments'])->name('charts.appointments.line');
+    Route::get('/charts/doctors/colum', [ChartController::class, 'doctors'])->name('charts.doctors.column');
+
+    # JSON CHARTS COLUMN DATA
+
+    Route::get('/charts/doctors/column/data', [ChartController::class, 'doctorsJson']);
 
 });
 

@@ -56,7 +56,7 @@
 
                 <div class="form-group">
                     <label for="dni">DNI</label>
-                    <input type="number" name="dni" id="dni" class="form-control" value="{{ $doctor->dni }}" >
+                    <input type="text" name="dni" id="dni" class="form-control" value="{{ $doctor->dni }}" >
                 </div>
 
 
@@ -67,7 +67,7 @@
 
                 <div class="form-group">
                     <label for="phone">Telefono</label>
-                    <input type="number" name="phone" id="phone" class="form-control" value="{{ $doctor->phone }}">
+                    <input type="text" name="phone" id="phone" class="form-control" value="{{ $doctor->phone }}">
                 </div>
 
                 <div class="form-group">

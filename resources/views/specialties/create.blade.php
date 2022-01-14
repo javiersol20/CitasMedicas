@@ -30,12 +30,12 @@
             @csrf
             <div class="form-group">
                 <label for="name">Nombre de la especialidad</label>
-                <input type="text" name="name" id="name" class="form-control" required>
+                <input type="text" autofocus name="name" id="name" class="form-control" required>
             </div>
 
             <div class="form-group">
                 <label for="name">Descripcion de la especialidad</label>
-                <textarea class="form-control" name="description" id="description"></textarea>
+                <textarea class="form-control" name="description" id="description">N/A</textarea>
             </div>
 
             <button type="submit" class="btn btn-sm btn-outline-success">Guardar especialidad</button>

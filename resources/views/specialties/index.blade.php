@@ -75,6 +75,10 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="card-body">
+                    {{ $specialties->links() }}
+                </div>
             </div>
 
 @endsection
