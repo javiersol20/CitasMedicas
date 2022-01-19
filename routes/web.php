@@ -92,9 +92,10 @@ Route::middleware(['auth', 'doctor'])->group(function () {
 
 # GET
     Route::get('/schedule', [ScheduleController::class, 'edit'])->name('schedule.edit');
-
+    Route::get('/patients/me', [DoctorController::class, 'myPatients'])->name('patients.me');
 # POST
     Route::post('/schedule', [ScheduleController::class, 'store'])->name('schedule.store');
+
 });
 
 Route::middleware('auth')->group(function () {

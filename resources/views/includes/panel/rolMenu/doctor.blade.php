@@ -10,4 +10,10 @@
     </a>
 </li>
 
+<li class="nav-item">
+    <a href="{{ route('patients.me') }}" class="nav-link">
+        <i class="ni ni-user-run text-primary"></i> Mis pacientes
+    </a>
+</li>
+
 

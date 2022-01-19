@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Appointment;
 use App\Models\Specialty;
 use App\Models\User;
 use App\Traits\ManagePhotos;
@@ -134,6 +135,13 @@ class DoctorController extends Controller
         }
         return redirect()->route('doctors.edit', ['user' => $user->id])->with('message', $responseUpdate);
 
+    }
+
+    public function myPatients()
+    {
+         $myPatients = Appointment::where('doctor_id', auth()->id())->get();
+
+        return view('doctors.patients', compact('myPatients'));
     }
 
     public function destroy(User $user)
