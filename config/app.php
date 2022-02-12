@@ -182,7 +182,7 @@ return [
          */
 
         \App\Providers\ScheduleServiceProvider::class,
-
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
     ],
 
     /*
