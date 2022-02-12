@@ -182,6 +182,7 @@ return [
          */
 
         \App\Providers\ScheduleServiceProvider::class,
+        \Laravel\Passport\PassportServiceProvider::class,
 
     ],
 
