@@ -119,8 +119,7 @@ Route::middleware('auth')->group(function () {
 
 
     // JSON
-    Route::get('/specialties/{specialty}/doctors', [ApiSpecialtyController::class, 'doctors'])->name('json.doctors');
-    Route::get('/schedule/hours', [ApiScheduleController::class, 'hours'])->name('json.hours');
+
 
 
 
