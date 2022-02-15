@@ -13,6 +13,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/specialties', [ApiSpecialtyController::class, 'index']);
 Route::get('/specialties/{specialty}/doctors', [ApiSpecialtyController::class, 'doctors'])->name('json.doctors');
+Route::get('/specialties/{specialty}/doctorsJson', [ApiSpecialtyController::class, 'doctorsJson'])->name('json.doctors');
 Route::get('/schedule/hours', [ApiScheduleController::class, 'hours'])->name('json.hours');
 
 Route::middleware('auth:api')->group(function (){

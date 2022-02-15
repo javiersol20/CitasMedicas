@@ -18,4 +18,11 @@ class SpecialtyController extends Controller
     {
         return SpecialtyResource::make($specialty);
     }
+
+    public function doctorsJson(Specialty $specialty)
+    {
+        return $specialty->users()->get([
+            'users.id', 'users.name'
+        ]);
+    }
 }
