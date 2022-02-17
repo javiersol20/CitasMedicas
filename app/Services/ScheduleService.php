@@ -20,17 +20,20 @@ class ScheduleService implements ScheduleServiceInterface {
     {
         $wordDay = WorkDay::status()->days($this->getDayFromDate($date))->doctor($doctorId)->first();
 
-        if(!$wordDay)
+        if($wordDay)
         {
-            $responseScheduleJson = [];
 
-        }else{
             $morningIntervals = $this->getIntervals($wordDay->morning_start, $wordDay->morning_end, $date, $doctorId);
             $afternoonIntervals = $this->getIntervals($wordDay->afternoon_start, $wordDay->afternoon_end, $date, $doctorId);
 
-            $responseScheduleJson['morning'] = $morningIntervals;
-            $responseScheduleJson['afternoon'] = $afternoonIntervals;
+        }else{
+            $morningIntervals = [];
+            $afternoonIntervals = [];
         }
+        $responseScheduleJson = [];
+        
+        $responseScheduleJson['morning'] = $morningIntervals;
+        $responseScheduleJson['afternoon'] = $afternoonIntervals;
 
         return $responseScheduleJson;
     }
