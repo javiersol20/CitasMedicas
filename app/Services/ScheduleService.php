@@ -31,7 +31,7 @@ class ScheduleService implements ScheduleServiceInterface {
             $afternoonIntervals = [];
         }
         $responseScheduleJson = [];
-        
+
         $responseScheduleJson['morning'] = $morningIntervals;
         $responseScheduleJson['afternoon'] = $afternoonIntervals;
 

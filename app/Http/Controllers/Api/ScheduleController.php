@@ -14,7 +14,6 @@ class ScheduleController extends Controller
     {
 
         $validation = Validator::make($request->all(), [
-            'date' => 'required',
             'doctor_id' => 'required|exists:users,id'
         ]);
 
