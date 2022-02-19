@@ -12,6 +12,15 @@ class Appointment extends Model
 
     protected $fillable = ['doctor_id', 'specialty_id', 'patient_id', 'description', 'schedule_date', 'schedule_time', 'type', 'status'];
 
+    protected $hidden = [
+        'specialty_id',
+        'doctor_id',
+        'schedule_time'
+    ];
+
+    protected $appends = [
+      'schedule_time_12'
+    ];
     public function specialty()
     {
         return $this->belongsTo(Specialty::class);

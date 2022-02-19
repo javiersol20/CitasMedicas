@@ -35,12 +35,12 @@ class AppointmentController extends Controller
 
         if($role == 'doctor' || $role == 'patient')
         {
-            $pendingAppointments = Appointment::where('status', "'Reservada'")->where($this->role_id, auth()->user()->id)->get();
+            $pendingAppointments = Appointment::where('status', "Reservada")->where($this->role_id, auth()->user()->id)->get();
             $confirmedAppointments = Appointment::where('status', 'Confirmada')->where($this->role_id, auth()->user()->id)->get();
             $oldAppointments = Appointment::whereIn('status', ['Atendida', 'Cancelada'])->where($this->role_id, auth()->user()->id)->paginate(10);
 
         }else{
-            $pendingAppointments = Appointment::where('status', "'Reservada'")->get();
+            $pendingAppointments = Appointment::where('status', "Reservada")->get();
             $confirmedAppointments = Appointment::where('status', 'Confirmada')->get();
             $oldAppointments = Appointment::whereIn('status', ['Atendida', 'Cancelada'])->paginate(10);
 
