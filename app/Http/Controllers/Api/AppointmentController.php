@@ -82,7 +82,7 @@ class AppointmentController extends Controller
                 Appointment::create([
                     'doctor_id' => $request->doctor_id,
                     'specialty_id' => $request->specialty_id,
-                    'patient_id' => auth()->user()->id,
+                    'patient_id' => Auth::guard('api')->id(),
                     'description' => $request->description,
                     'schedule_date' => $request->date,
                     'schedule_time' => $request->interval = $carbonTime->format('H:i:s'),
