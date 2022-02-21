@@ -20,7 +20,9 @@ Route::middleware('auth:api')->group(function (){
 
    Route::get('/user', [UserController::class, 'show']);
    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('appointments', [AppointmentController::class, 'index']);
+   Route::get('appointments', [AppointmentController::class, 'index']);
+   Route::post('appointments', [AppointmentController::class, 'store']);
+
 
 
 });

@@ -3,8 +3,11 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use http\Env\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 class Appointment extends Model
 {
@@ -19,8 +22,9 @@ class Appointment extends Model
     ];
 
     protected $appends = [
-      'schedule_time_12'
+        'schedule_time_12'
     ];
+
     public function specialty()
     {
         return $this->belongsTo(Specialty::class);
@@ -46,4 +50,5 @@ class Appointment extends Model
 
         return (new Carbon($this->schedule_time))->format('g:i A');
     }
+
 }

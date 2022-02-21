@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAppointment;
 use App\Interfaces\ScheduleServiceInterface;
 use App\Models\Appointment;
 use App\Models\CancelledAppointment;
@@ -82,7 +83,7 @@ class AppointmentController extends Controller
     public function store(Request $request, ScheduleServiceInterface $scheduleService)
     {
         $validation = Validator::make($request->all(), [
-           'specialty_id' => 'required|exists:specialties,id',
+            'specialty_id' => 'required|exists:specialties,id',
             'doctor_id' => 'required|exists:users,id',
             'date' => 'required',
             'interval' => 'required',
@@ -96,22 +97,22 @@ class AppointmentController extends Controller
             $time = $request->interval;
 
             if($date && $doctorId && $time)
-                {
-                    $start = new Carbon($time);
-                }else{
-                    return;
-                }
-                if(!$scheduleService->isAvailableInterval($date,$doctorId,$start))
-                {
-                    $validation->errors()->add('available_time', 'La hora seleccionada ya se encuentra reservada por otra persona');
-                }
+            {
+                $start = new Carbon($time);
+            }else{
+                return;
+            }
+            if(!$scheduleService->isAvailableInterval($date,$doctorId,$start))
+            {
+                $validation->errors()->add('available_time', 'La hora seleccionada ya se encuentra reservada por otra persona');
+            }
         });
-
         if($validation->fails())
         {
             $responseAppointment = $validation->messages()->all();
 
-        }else{
+        }else {
+
 
             $carbonTime = Carbon::createFromFormat('g:i A', $request->interval);
 
@@ -128,13 +129,11 @@ class AppointmentController extends Controller
 
                 $responseAppointment = ['Cita agendada con exito'];
 
-            }catch (QueryException $exception)
-            {
+            } catch (QueryException $exception) {
                 $responseAppointment = ['Ha ocurrido un error interno en el servidor'];
-                Log::error('Error al agendar una cita: '. $exception->getMessage());
+                Log::error('Error al agendar una cita: ' . $exception->getMessage());
             }
         }
-
         $message = $responseAppointment;
         return back()->with(compact('message'))->withInput();
     }
