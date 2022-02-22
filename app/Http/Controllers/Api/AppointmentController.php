@@ -69,13 +69,15 @@ class AppointmentController extends Controller
                 $validation->errors()->add('available_time', 'La hora seleccionada ya se encuentra reservada por otra persona');
             }
         });
+
+
         if($validation->fails())
         {
             $responseAppointment = $validation->messages()->all();
 
         }else {
 
-
+        
             $carbonTime = Carbon::createFromFormat('g:i A', $request->interval);
 
             try {

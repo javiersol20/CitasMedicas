@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\AppointmentController;
 
 // Public resources
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/specialties', [ApiSpecialtyController::class, 'index']);
 Route::get('/specialties/{specialty}/doctors', [ApiSpecialtyController::class, 'doctors'])->name('json.doctors');

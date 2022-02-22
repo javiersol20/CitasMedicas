@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -43,6 +44,7 @@ class User extends Authenticatable implements JWTSubject
         'updated_at'
     ];
 
+
     /**
      * The attributes that should be cast.
      *
@@ -52,6 +54,20 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
+    public static $rules = [ 'name' => 'required|string|max:255', 'email' => 'required|string|email|max:255|unique:users', 'password' => 'required|string|min:8|confirmed', ];
+
+    public static function createPatient(array $data)
+    {
+
+        return self::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'dni' => '0000000000000' + rand(1,999999),
+            'role' => 'patient',
+            'password' => Hash::make($data['password']),
+        ]);
+
+    }
     public function scopePatients($query)
     {
         return $query->where('role', 'patient');
